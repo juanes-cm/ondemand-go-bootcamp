@@ -20,8 +20,8 @@ func NewApiMediator() ApiMediator {
 }
 
 func (ap *apiMediator) GetCSVElementByID(id int) (dto.GetCsvDTO, error) {
-	in, err := os.Open("csv/pokemon.csv")
 	csvDTo := []*dto.GetCsvDTO{}
+	in, err := os.Open("csv/pokemon.csv")
 	if err != nil {
 		return dto.GetCsvDTO{}, err
 	}

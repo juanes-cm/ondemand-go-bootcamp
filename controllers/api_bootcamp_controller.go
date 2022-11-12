@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -22,7 +21,6 @@ func (ac *ApiBootcampController) GetCSVElementByID(w http.ResponseWriter, r *htt
 	vars := mux.Vars(r)
 	csvID, err := strconv.Atoi(vars["id"])
 	if err != nil {
-		fmt.Println(err)
 		response.Error = err.Error()
 		SendResponse(w, http.StatusBadRequest, response)
 		return
@@ -31,7 +29,6 @@ func (ac *ApiBootcampController) GetCSVElementByID(w http.ResponseWriter, r *htt
 	mediator := ac.ApiBootcampFactory()
 	clientDto, err := mediator.GetCSVElementByID(csvID)
 	if err != nil {
-		fmt.Println(err)
 		response.Error = err.Error()
 		SendResponse(w, http.StatusBadRequest, response)
 		return
