@@ -1,16 +1,30 @@
 package main
 
 import (
-	"api-bootcamp/api"
+	"fmt"
 	"net/http"
+	"os"
+
+	"api-bootcamp/api"
+	"api-bootcamp/configs"
+
+	"github.com/sirupsen/logrus"
 )
+
+// Create a new instance of the logger.
+var log = logrus.New()
 
 func main() {
 
-	router := api.Routes()
+	config, err := configs.LoadConfig()
+	if err != nil {
+		fmt.Println("error : ", err)
+		os.Exit(1)
+	}
+	router := api.Routes(*log, config)
 
 	srv := &http.Server{
-		Addr:    ":8081",
+		Addr:    config.Port,
 		Handler: router,
 	}
 	srv.ListenAndServe()
