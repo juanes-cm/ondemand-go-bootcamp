@@ -1,6 +1,7 @@
 package mediators
 
 import (
+	"errors"
 	"os"
 
 	"api-bootcamp/dto"
@@ -13,15 +14,18 @@ type ApiMediator interface {
 }
 
 type apiMediator struct {
+	CsvFile string
 }
 
-func NewApiMediator() ApiMediator {
-	return &apiMediator{}
+func NewApiMediator(csvFile string) ApiMediator {
+	return &apiMediator{
+		CsvFile: csvFile,
+	}
 }
 
 func (ap *apiMediator) GetCSVElementByID(id int) (dto.GetCsvDTO, error) {
 	csvDTo := []*dto.GetCsvDTO{}
-	in, err := os.Open("csv/pokemon.csv")
+	in, err := os.Open(ap.CsvFile)
 	if err != nil {
 		return dto.GetCsvDTO{}, err
 	}
@@ -36,5 +40,5 @@ func (ap *apiMediator) GetCSVElementByID(id int) (dto.GetCsvDTO, error) {
 		}
 	}
 
-	return dto.GetCsvDTO{}, nil
+	return dto.GetCsvDTO{}, errors.New("element not found")
 }
